@@ -25,6 +25,9 @@ class BlurScreen(QLabel):
 
         if event.modifiers() == Qt.ControlModifier:  
             self.get_color(event.pos())
+       
+        elif event.modifiers() == Qt.ShiftModifier:  
+            self.get_color(event.pos())
 
     def mouseMoveEvent(self, event):
         if self.start_point:  
@@ -61,7 +64,6 @@ class BlurScreen(QLabel):
         self.copy_to_clipboard(coords)
 
     def get_color(self, pos):
-        
         global_pos = self.mapToGlobal(pos)
         r, g, b = pyautogui.pixel(global_pos.x(), global_pos.y())
         hex_color = f"#{r:02X}{g:02X}{b:02X}"
@@ -71,11 +73,9 @@ class BlurScreen(QLabel):
         self.copy_to_clipboard(color_info)
 
     def copy_to_clipboard(self, text):
-        
         self.clipboard.setText(text)
 
     def keyPressEvent(self, event):
-
         if event.key() == Qt.Key_Escape:
             self.close()
 
