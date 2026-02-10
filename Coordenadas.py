@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QApplication, QLabel
 from PyQt5.QtGui import QPixmap, QImage, QPainter, QPen
 from PyQt5.QtCore import Qt, QPoint
 
-
 class BlurScreen(QLabel):
     def __init__(self):
         super().__init__()
@@ -67,7 +66,6 @@ class BlurScreen(QLabel):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_Escape:
             self.close()
-
 
 app = QApplication(sys.argv)
 window = BlurScreen()
