@@ -10,7 +10,6 @@ Após isso, pressione Esc e abra novamente o terminal. Lá, estarão as coordena
 
 <img width="707" height="498" alt="image" src="https://github.com/user-attachments/assets/4e9617ca-9e20-48ca-8144-e3de32dfeac4" />
 
-Na imagem a cima esta marcado a cor e a coordenada como exemplo:
-
+Na imagem acima, estão marcados a cor e as coordenadas como exemplo:
 Cor em (226, 62): #000000
 Coordenadas: (226, 62, 414, 68)
