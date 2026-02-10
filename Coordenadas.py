@@ -1,98 +1,81 @@
 import sys
 import pyautogui
-from PIL import Image, ImageFilter
-from PyQt5.QtWidgets import QApplication, QLabel  
-from PyQt5.QtGui import QPixmap, QImage, QPainter, QPen, QClipboard  
-from PyQt5.QtCore import Qt, QPoint
+from PyQt5.QtWidgets import QApplication, QLabel
+from PyQt5.QtGui import QPixmap, QImage, QPainter, QPen
+from PyQt5.QtCore import Qt
 
 class BlurScreen(QLabel):
     def __init__(self):
         super().__init__()
 
         screenshot = pyautogui.screenshot()
-        blurred = screenshot.filter(ImageFilter.GaussianBlur(radius=8))
-
-        data = blurred.tobytes("raw", "RGB")
-        qimage = QImage(data, blurred.width, blurred.height, QImage.Format_RGB888)
-
-        self.base_pixmap = QPixmap.fromImage(qimage)
-        self.pixmap = self.base_pixmap.copy()
+        data = screenshot.tobytes("raw", "RGB")
+        qimage = QImage(data, screenshot.width, screenshot.height, QImage.Format_RGB888)
+        self.pixmap = QPixmap.fromImage(qimage)
         self.setPixmap(self.pixmap)
 
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.showFullScreen()
 
         self.start_point = None
-        self.mode = None  
-
-        self.clipboard = QApplication.clipboard()  
+        self.clipboard = QApplication.clipboard()
 
     def mousePressEvent(self, event):
-        modifiers = event.modifiers()
+        self.start_point = event.pos()  
 
-        if modifiers == Qt.ShiftModifier:
-            self.mode = "coords"
-            self.start_point = event.pos()
-
-        elif modifiers == Qt.ControlModifier:
-            self.mode = "color"
+        if event.modifiers() == Qt.ControlModifier:  
             self.get_color(event.pos())
-
-        else:
-            self.mode = None
-            self.start_point = event.pos()
 
     def mouseMoveEvent(self, event):
-        if self.start_point and self.mode == "coords":
-            self.pixmap = self.base_pixmap.copy()
-            painter = QPainter(self.pixmap)
-            pen = QPen(Qt.white, 2)
-            painter.setPen(pen)
-
-            x = self.start_point.x()
-            y = self.start_point.y()
-            w = event.pos().x() - x
-            h = event.pos().y() - y
-
-            painter.drawRect(x, y, w, h)
-            painter.end()
-            self.setPixmap(self.pixmap)
-
-        elif self.mode == "color":
-            self.get_color(event.pos())
+        if self.start_point:  
+            self.update_pixmap_with_rect(event)
 
     def mouseReleaseEvent(self, event):
-        if self.mode == "coords" and self.start_point:
-            end_point = event.pos()
+        if self.start_point:  
+            self.handle_coords(event)
+        self.start_point = None  
 
-            x1, y1 = self.start_point.x(), self.start_point.y()
-            x2, y2 = end_point.x(), end_point.y()
+    def update_pixmap_with_rect(self, event):
+        pixmap_copy = self.pixmap.copy()  
+        painter = QPainter(pixmap_copy)
+        pen = QPen(Qt.white, 2)
+        painter.setPen(pen)
 
-            x = min(x1, x2)
-            y = min(y1, y2)
-            w = abs(x2 - x1)
-            h = abs(y2 - y1)
+        x, y = self.start_point.x(), self.start_point.y()
+        w, h = event.pos().x() - x, event.pos().y() - y
+        painter.drawRect(x, y, w, h)
+        painter.end()
 
-            coords = f"Coordenadas: ({x}, {y}, {w}, {h})"
-            print(coords)
-            self.copy_to_clipboard(coords)  
+        self.setPixmap(pixmap_copy) 
 
-        self.start_point = None
-        self.mode = None
+    def handle_coords(self, event):
+
+        x1, y1 = self.start_point.x(), self.start_point.y()
+        x2, y2 = event.pos().x(), event.pos().y()
+
+        x, y = min(x1, x2), min(y1, y2)
+        w, h = abs(x2 - x1), abs(y2 - y1)
+
+        coords = f"Coordenadas: ({x}, {y}, {w}, {h})"
+        print(coords)
+        self.copy_to_clipboard(coords)
 
     def get_color(self, pos):
+        
         global_pos = self.mapToGlobal(pos)
         r, g, b = pyautogui.pixel(global_pos.x(), global_pos.y())
         hex_color = f"#{r:02X}{g:02X}{b:02X}"
 
         color_info = f"Cor em ({global_pos.x()}, {global_pos.y()}): {hex_color}"
         print(color_info)
-        self.copy_to_clipboard(color_info)  
+        self.copy_to_clipboard(color_info)
 
     def copy_to_clipboard(self, text):
-        self.clipboard.setText(text)  
+        
+        self.clipboard.setText(text)
 
     def keyPressEvent(self, event):
+
         if event.key() == Qt.Key_Escape:
             self.close()
 
