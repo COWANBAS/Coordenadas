@@ -11,7 +11,7 @@ Após isso, pressione Esc e abra novamente o terminal. Lá, estarão as coordena
 <img width="707" height="498" alt="image" src="https://github.com/user-attachments/assets/4e9617ca-9e20-48ca-8144-e3de32dfeac4" />
 <br><br>
 Na imagem acima, estão marcados a cor e as coordenadas. No caso, a cor mostra a posição exata em que se encontra a cor e o código dela:
-
+<br><br>
 *Cor em (226, 62): #000000*
 
 Já as coordenadas incluem a altura e a largura:
