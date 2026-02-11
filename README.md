@@ -2,7 +2,7 @@ Script feito para pegar as coordenadas de um retângulo na tela e as cores que e
 
 # Como usar
 
-Execute o script no terminal e, em seguida, use a tecla Shift pressionando o botão esquerdo do mouse para buscar as coordenadas do local desejado.
+Execute o script no terminal e, em seguida, use a tecla Shift pressionando o botão esquerdo do mouse para buscar as coordenadas e a cor do local.
 
 <img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/4c30051a-c412-45d9-b068-e647f9b346c3" />
 
