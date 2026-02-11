@@ -12,8 +12,8 @@ Após isso, pressione Esc e abra novamente o terminal. Lá, estarão as coordena
 <br><br>
 Na imagem acima, estão marcados a cor e as coordenadas. No caso, a cor mostra a posição exata em que se encontra a cor e o código dela:
 <br><br>
-*Cor em (226, 62): #000000*
+Cor em (226, 62): #000000
 <br><br>
 Já as coordenadas incluem a altura e a largura:
 <br><br>
-*Coordenadas: (226, 62, 414, 68)*
+Coordenadas: (226, 62, 414, 68)
