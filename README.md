@@ -15,5 +15,5 @@ Na imagem acima, estão marcados a cor e as coordenadas. No caso, a cor mostra a
 *Cor em (226, 62): #000000*
 <br><br>
 Já as coordenadas incluem a altura e a largura:
-
+<br><br>
 *Coordenadas: (226, 62, 414, 68)*
